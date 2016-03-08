@@ -39,6 +39,7 @@ namespace ContosoBooks
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            //During development the db connection string comes from the appsettings.json file.  In production, the connection string has to be set in an environment variable on the host. If the Configuration API finds an environment variable with the same key it returns the env variable instead of the appsettings.json value
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<ApplicationDbContext>(options =>
@@ -98,6 +99,9 @@ namespace ContosoBooks
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //This line is added to call the Initialize method in the SampleData.cs class
+            SampleData.Initialize(app.ApplicationServices);
         }
 
         // Entry point for the application.
